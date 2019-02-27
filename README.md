@@ -39,7 +39,7 @@ So, try this :-
 
 ```
 export SECRETS_PATH=<the path you chose to store the secrets in>
-export MY_EXAMPLE_SECRET=<azure-secret:my-example-secret>
+export MY_EXAMPLE_SECRET="<azure-secret:my-example-secret>"
 echo "samplesecret" > $SECRETS_PATH/my-example-secret
 
 ```
@@ -74,7 +74,7 @@ So, try this :-
 
 ```
 export SECRETS_PATH=<the path you chose to store the secrets in>
-export MY_EXAMPLE_SECRET=<azure-secret:my-example-secret>
+export MY_EXAMPLE_SECRET="<azure-secret:my-example-secret>"
 echo "samplesecret" > $SECRETS_PATH/my-example-secret
 
 ```
