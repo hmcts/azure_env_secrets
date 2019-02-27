@@ -1,9 +1,12 @@
 # AzureEnvSecrets
 
-A gem to load environment variables from a secrets folder.
+A gem to post process environment variables and any that are defined with the special signature are replaced with the value
+from the file system.
 
-A use case for this is where your deployed applications have a folder mounted containing the secrets rather than specifying them
-as environment variables.
+A use case for this where your application doesn't want to expose something as a real environment variable where everything
+can see it - instead, only the ruby process containing this gem can see it as an environment variable - meaning
+all ruby code that uses the environment variable doesnt need to change - which includes gems that use environment variables
+such as aws's s3 gem as an example.
 
 At HMCTS, this is how things are done - so this gem should be used in all ruby apps deployed on HMCTS's azure platform
 
@@ -29,18 +32,26 @@ Or install it yourself as:
 
 If used within a rails project, everything should just work - no more config to do.
 
-To see it in use, set the SECRETS_PATH environment variable to a folder in your file system and put a file in that
-folder, naming it EXAMPLE_SECRET and putting some text inside that file.
+To see it in use, you need to set the SECRETS_PATH environment variable to a folder in your file system, set an
+ environment variable to point to the secret - and to put a file in the folder, containing the secret data
 
+So, try this :-
+
+```
+export SECRETS_PATH=<the path you chose to store the secrets in>
+export MY_EXAMPLE_SECRET=<azure-secret:my-example-secret>
+echo "samplesecret" > $SECRETS_PATH/my-example-secret
+
+```
 Then, go into a rails console and type
 
 ```
 
-ENV['EXAMPLE_SECRET']
+ENV['MY_EXAMPLE_SECRET']
 
 ```
 
-and you should see the text that you put inside this file
+and you should see the text "samplesecret"
 
 ### Without Rails
 
@@ -56,18 +67,26 @@ require 'azure_env_secrets'
 
 and thats it
 
-To see it in use, set the SECRETS_PATH environment variable to a folder in your file system and put a file in that
-folder, naming it EXAMPLE_SECRET and putting some text inside that file.
+To see it in use, you need to set the SECRETS_PATH environment variable to a folder in your file system, set an
+ environment variable to point to the secret - and to put a file in the folder, containing the secret data
 
+So, try this :-
+
+```
+export SECRETS_PATH=<the path you chose to store the secrets in>
+export MY_EXAMPLE_SECRET=<azure-secret:my-example-secret>
+echo "samplesecret" > $SECRETS_PATH/my-example-secret
+
+```
 Then, go into a rails console and type
 
 ```
 
-ENV['EXAMPLE_SECRET']
+ENV['MY_EXAMPLE_SECRET']
 
 ```
 
-and you should see the text that you put inside this file
+and you should see the text "samplesecret"
 
 ## Development
 
