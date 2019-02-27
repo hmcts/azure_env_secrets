@@ -37,6 +37,7 @@ RSpec.describe AzureEnvSecrets do
           ENV['SECRETS_PATH'] = dir
           File.open(File.join(dir, 'super-sensitive-password'), 'w') { |f| f.write 'This is the super sensitive password' }
           File.open(File.join(dir, 'another-sensitive-password'), 'w') { |f| f.write 'This is another sensitive password' }
+          @tempdir = dir
           example.run
         end
       end
@@ -63,6 +64,14 @@ RSpec.describe AzureEnvSecrets do
 
         # Assert - Make sure SUPER_SENSITIVE_PASSWORD has changed
         expect(ENV.to_hash).to include example_env_data.slice('AWS_ACCESS_KEY', 'PLAIN_BORING')
+      end
+
+      it 'raises an error if the file does not exist' do
+        # Arrange - Change one of the secret defs to one that doesnt exist
+        ENV['SUPER_SENSITIVE_PASSWORD'] = '<azure-secret:a-reference-that-doesnt-exist>'
+
+        # Act and Assert - Load and check for exception
+        expect { service.load }.to raise_error(::AzureEnvSecrets::SecretFileNotFound, "The secret 'a-reference-that-doesnt-exist' referenced in env var 'SUPER_SENSITIVE_PASSWORD' is not defined as a file in '#{@tempdir}' - maybe it is missing from the keyvault ?")
       end
     end
   end

@@ -15,7 +15,7 @@ At HMCTS, this is how things are done - so this gem should be used in all ruby a
 Add this line to your application's Gemfile:
 
 ```ruby
-gem 'azure_env_secrets', git: 'https://github.com/ministryofjustice/azure_env_secrets.git', tag: 'v0.1.2'
+gem 'azure_env_secrets', git: 'https://github.com/ministryofjustice/azure_env_secrets.git', tag: 'v0.1.3'
 ```
 
 And then execute:
