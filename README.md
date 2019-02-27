@@ -15,16 +15,12 @@ At HMCTS, this is how things are done - so this gem should be used in all ruby a
 Add this line to your application's Gemfile:
 
 ```ruby
-gem 'azure_env_secrets'
+gem 'azure_env_secrets', git: 'https://github.com/ministryofjustice/azure_env_secrets.git', tag: 'v0.1.2'
 ```
 
 And then execute:
 
     $ bundle
-
-Or install it yourself as:
-
-    $ gem install azure_env_secrets
 
 ## Usage
 
