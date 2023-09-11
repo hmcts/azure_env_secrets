@@ -7,16 +7,15 @@ module AzureEnvSecrets
   # Your code goes here...
   #
   def self.load
-    return if ENV.fetch('SECRETS_PATH', '').empty?
+    secrets_path = ENV.fetch('SECRETS_PATH', '').empty?
+    return if secrets_path.empty?
 
-    ENV.each do |(key, value)|
-      match_data = value.match(SIGNATURE_RE)
-      next if match_data.nil?
-
-      path = File.join(ENV['SECRETS_PATH'], match_data[1])
-      raise SecretFileNotFound, "The secret '#{match_data[1]}' referenced in env var '#{key}' is not defined as a file in '#{ENV['SECRETS_PATH']}' - maybe it is missing from the keyvault ?" unless File.exist?(path)
-
-      ENV[key] = File.read(path)
+    if Dir.exist?(secrets_path)
+      Dir["#{secrets_path}/*"].each do |filepath|
+        name = filepath.split('/')[-1]
+        value = File.open(filepath).read
+        ENV[name] = value
+      end
     end
   end
 end
