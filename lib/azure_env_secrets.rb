@@ -7,7 +7,7 @@ module AzureEnvSecrets
   # Your code goes here...
   #
   def self.load
-    secrets_path = ENV.fetch('SECRETS_PATH', '').empty?
+    secrets_path = ENV.fetch('SECRETS_PATH', '')
     return if secrets_path.empty?
 
     if Dir.exist?(secrets_path)
